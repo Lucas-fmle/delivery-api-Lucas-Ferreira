@@ -37,7 +37,7 @@ public class PedidoService {
     private ProdutoRepository produtoRepository;
 
     public PedidoService(PedidoRepository pedidoRepository, ClienteRepository clienteRepository,
-            RestauranteRepository restauranteRepository, ItemPedidoRepository itemPedidoRepository, ProdutoRepository produtoRepository) {
+                         RestauranteRepository restauranteRepository, ItemPedidoRepository itemPedidoRepository, ProdutoRepository produtoRepository) {
         this.pedidoRepository = pedidoRepository;
         this.clienteRepository = clienteRepository;
         this.restauranteRepository = restauranteRepository;
@@ -47,15 +47,15 @@ public class PedidoService {
 
     public Pedido criarPedido(Long clienteId, Long restauranteId){
         Cliente cliente = clienteRepository.findById(clienteId)
-            .orElseThrow(()-> new IllegalArgumentException("Cliente não encontrado."));
+                .orElseThrow(()-> new IllegalArgumentException("Cliente não encontrado."));
 
         Restaurante restaurante = restauranteRepository.findById(restauranteId)
-            .orElseThrow(()-> new IllegalArgumentException("Restaurante não encontrado."));
+                .orElseThrow(()-> new IllegalArgumentException("Restaurante não encontrado."));
 
         Pedido entradaPedido = new Pedido();
         entradaPedido.setCliente(cliente);
         entradaPedido.setRestaurante(restaurante);
-        /* entradaPedido.setNumeroPedido(numeroPedido); */
+        /* entradaPedido.setNumeroPedido(); */
         entradaPedido.setStatus(StatusPedidos.PENDENTE);
         entradaPedido.setDataPedido(LocalDateTime.now());
         entradaPedido.setValorTotal(BigDecimal.ZERO);
@@ -64,7 +64,7 @@ public class PedidoService {
 
     public Pedido atualizarStatus(Long pedidoId, StatusPedidos status){
         Pedido pedido = pedidoRepository.findById(pedidoId)
-        .orElseThrow(()-> new IllegalArgumentException("Pedido não encontrado."));
+                .orElseThrow(()-> new IllegalArgumentException("Pedido não encontrado."));
 
         pedido.setStatus(status);
         return pedidoRepository.save(pedido);
@@ -76,10 +76,10 @@ public class PedidoService {
 
     public ItemPedido adicionarItem(Long pedidoId, Long produtoId, Integer quantidade){
         Pedido pedido = pedidoRepository.findById(pedidoId)
-        .orElseThrow(()-> new IllegalArgumentException("Pedido não encontrado."));
+                .orElseThrow(()-> new IllegalArgumentException("Pedido não encontrado."));
 
         Produto produto = produtoRepository.findById(produtoId)
-            .orElseThrow(()-> new IllegalArgumentException("Produto não encontrado."));
+                .orElseThrow(()-> new IllegalArgumentException("Produto não encontrado."));
 
         ItemPedido item = new ItemPedido();
         item.setPedido(pedido);
@@ -88,7 +88,7 @@ public class PedidoService {
         item.setPrecoUnitario(produto.getPreco());
 
         BigDecimal subtotal = produto.getPreco()
-            .multiply(BigDecimal.valueOf(quantidade));
+                .multiply(BigDecimal.valueOf(quantidade));
         item.setSubtotal(subtotal);
         itemPedidoRepository.save(item);
 

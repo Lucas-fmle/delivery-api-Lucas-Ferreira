@@ -14,9 +14,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+
 
 @Getter
 @Setter
@@ -29,35 +31,27 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome; 
+    private String nome;
 
     @Column(unique= true, nullable = false)
     private String email;
 
     private String telefone;
 
-    private String endereco; 
+    private String endereco;
 
     @Column(name = "data_cadastro")
     private LocalDateTime dataCadastro;
 
-    private boolean ativo;  
+    private boolean ativo;
 
     @OneToMany(mappedBy="cliente")
     @JsonIgnore
     private List<Pedido> pedidos = new ArrayList<>();
 
-    
+
+    @PrePersist
+    public void prePersist(){
+        this.dataCadastro = LocalDateTime.now();
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-

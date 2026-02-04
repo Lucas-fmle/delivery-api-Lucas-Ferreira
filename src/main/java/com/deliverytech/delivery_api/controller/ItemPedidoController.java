@@ -1,41 +1,25 @@
 package com.deliverytech.delivery_api.controller;
 
+import com.deliverytech.delivery_api.model.ItemPedido;
+import com.deliverytech.delivery_api.service.ItemPedidoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.deliverytech.delivery_api.enums.StatusPedidos;
-import com.deliverytech.delivery_api.model.Pedido;
-import com.deliverytech.delivery_api.service.PedidoService;
-
-
 @RestController
-@RequestMapping("/pedidos")
+@RequestMapping("/item-pedidos")
 public class ItemPedidoController {
-    private final PedidoService pedidoService;
-    public ItemPedidoController(PedidoService pedidoService) {
-        this.pedidoService = pedidoService;
+
+    private final ItemPedidoService service;
+
+    public ItemPedidoController(ItemPedidoService service) {
+        this.service = service;
     }
 
-    @PostMapping("/criar")
-    public Pedido criarPedido(@RequestParam Long clienteId, @RequestParam Long restauranteId){
-        return pedidoService.criarPedido(clienteId, restauranteId);
-    }
 
-    @PutMapping("/{id}/status")
-    public Pedido atualizarStatus(@PathVariable Long id, @RequestParam StatusPedidos status){
-        return pedidoService.atualizarStatus(id, status);
+    @GetMapping("/pedido/{pedidoId}")
+    public List<ItemPedido> listarPorPedido(@PathVariable Long pedidoId){
+        return service.listarPorPedido(pedidoId);
     }
-
-    @GetMapping("/cliente/{id}")
-    public List<Pedido> listarPorCliente(@PathVariable Long id){
-        return pedidoService.listarPorCliente(id);
-    }
-
 }

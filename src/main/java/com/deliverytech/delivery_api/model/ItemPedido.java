@@ -30,7 +30,7 @@ public class ItemPedido {
 
     @Column(name = "preco_unitario")
     private BigDecimal precoUnitario;
-    
+
     private BigDecimal subtotal;
 
     @JsonIgnore
@@ -43,5 +43,4 @@ public class ItemPedido {
     @JoinColumn(name="pedido_id")
     private Pedido pedido;
 
-    
 }

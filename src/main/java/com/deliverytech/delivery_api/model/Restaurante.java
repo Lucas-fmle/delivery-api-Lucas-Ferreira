@@ -23,7 +23,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "restaurantes")
 public class Restaurante {
-    
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
